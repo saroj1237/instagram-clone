@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, colors } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import "./Post.css";
 function Post({ avatarUrl, userName, imageUrl, postStatus }) {
   return (
@@ -15,7 +15,7 @@ function Post({ avatarUrl, userName, imageUrl, postStatus }) {
             <span style={{ color: "black", fontWeight: "bold" }}>
               {userName}
             </span>
-           {postStatus}
+            {postStatus}
           </p>
         </div>
       </div>
