@@ -1,99 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "../firebase";
 import Post from "./Post";
+import Profile from "./Profile";
 
 function Posts() {
   const [posts, setPosts] = useState([
-    {
-      avatarUrl:
-        "https://images.unsplash.com/photo-1602780349120-3d3a66309a80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      imageUrl:
-        "https://images.unsplash.com/photo-1602780349120-3d3a66309a80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-      postStatus: "Forest",
-      userName: "saroj",
-    },
+    // {
+    //   userName: "@saroj1237",
+    //   avatarUrl:
+    //     "https://images.unsplash.com/photo-1602917648808-e0aa2cd2c737?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+    //   imageUrl:
+    //     "https://images.unsplash.com/photo-1602917648808-e0aa2cd2c737?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+    //   postStatus: "Feeling sad and hungry",
+    // },
+    // {
+    //   userName: "@saroj1237",
+    //   avatarUrl:
+    //     "https://images.unsplash.com/photo-1602917648808-e0aa2cd2c737?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+    //   imageUrl:
+    //     "https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+    //   postStatus: "Feeling sad and hungry",
+    // },
+    // {
+    //   userName: "@saroj1237",
+    //   avatarUrl:
+    //     "https://images.unsplash.com/photo-1602917648808-e0aa2cd2c737?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+    //   imageUrl:
+    //     "https://images.ctfassets.net/l3l0sjr15nav/75GQyJ9qGktaUv46CKtRV5/76b7bef28646ba63c322aecfabf7bda2/product-updates-at-smallpdf_2x.png?w=2000",
+    //   postStatus: "Feeling sad and hungry",
+    // },
   ]);
-  const [input, setInput] = useState({
-    avatarUrl: "",
-    imageUrl: "",
-    postStatus: "",
-    userName: "",
-  });
 
-  const handleSubmit = (e, posts, setPosts, input, setInput) => {
-    e.preventDefault();
-    setPosts([
-      ...posts,
-      {
-        avatarUrl: input.avatarUrl,
-        imageUrl: input.imageUrl,
-        postStatus: input.postStatus,
-        userName: input.userName,
-      },
-    ]);
-    setInput({
-      avatarUrl: "",
-      imageUrl: "",
-      postStatus: "",
-      userName: "",
+  useEffect(() => {
+    db.collection("posts").onSnapshot((snapshot) => {
+      setPosts(
+        snapshot.docs.map((doc) => {
+          return { id: doc.id, post: doc.data() };
+        })
+      );
     });
-  };
-
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setInput((preValue) => {
-      return {
-        ...preValue,
-        [name]: value,
-      };
-    });
-  };
-  
+  }, []);
   return (
-    <div>
-      <form
-        onSubmit={(e) => {
-          handleSubmit(e, posts, setPosts, input, setInput);
-        }}
-      >
-        <input
-          type="text"
-          placeholder="avatarUrl"
-          name="avatarUrl"
-          value={input.avatarUrl}
-          onChange={onChange}
-        />
-        <input
-          type="text"
-          placeholder="imageUrl"
-          name="imageUrl"
-          value={input.imageUrl}
-          onChange={onChange}
-        />
-        <input
-          type="text"
-          placeholder="postStatus"
-          name="postStatus"
-          value={input.postStatus}
-          onChange={onChange}
-        />
-        <input
-          type="text"
-          placeholder="userName"
-          name="userName"
-          value={input.userName}
-          onChange={onChange}
-        />
-
-        <button>Post</button>
-      </form>
-      {posts.map((post) => (
-        <Post
-          userName={post.userName}
-          avatarUrl={post.avatarUrl}
-          imageUrl={post.imageUrl}
-          postStatus={post.postStatus}
-        />
-      ))}
+    <div className="flex">
+      <div className="md:w-1/2 bg-black">
+        {posts.map((post) => {
+          return (
+            <Post
+              key={post.id}
+              userName={post.post.userName}
+              avatarUrl={post.post.avatarUrl}
+              imageUrl={post.post.imageUrl}
+              postStatus={post.post.postStatus}
+            />
+          );
+        })}
+      </div>
+      <Profile />
     </div>
   );
 }
