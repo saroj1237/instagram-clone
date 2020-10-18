@@ -26,8 +26,10 @@ const useStyles = makeStyles((theme) => ({
 
 function Profile({ userName, avatarUrl }) {
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   const [user, setUser] = useState({ email: "", password: "" });
-  const [authUser, setAuthUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 
@@ -35,33 +37,78 @@ function Profile({ userName, avatarUrl }) {
     e.preventDefault();
     auth
       .createUserWithEmailAndPassword(user.email, user.password)
-      .catch((error) => alert(error.message));
-    // setUser({ email: "", password: "" });
-    console.log(user.email);
+      .then(() => {
+        setOpen(false);
+        setErrorMessage("");
+      })
+      .catch((error) => {
+        setOpen(true);
+        setErrorMessage(error.message);
+        console.log(error.message);
+      });
+    setUser({ email: "", password: "" });
+    setOpen(false);
   };
 
-//   useEffect(() => {
-//     auth.onAuthStateChanged((authUser) => {
-//       if (authUser) {
-//         console.log(authUser);
-//       } else {
-//         setAuthUser(null);
-//       }
-//     });
-//   }, []);
+  const login = () => {
+    auth
+      .signInWithEmailAndPassword(user.email, user.password)
+      .then(() => {
+        setOpen2(false);
+        setErrorMessage("");
+      })
+      .catch((error) => {
+        setOpen2(true);
+        setErrorMessage(error.message);
+        console.log(error.message);
+      });
+    console.log("Congratulations, You are Logged in.");
+  };
 
-  const handleOpen = () => {
+  const logout = () => {
+    auth
+      .signOut()
+      .then(() => {
+        setIsAuthenticated(false);
+        alert("Log Out successful :(");
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
+  };
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log(`${user.email} is signed in`);
+        setIsAuthenticated(true);
+      } else {
+        console.log("User is not signed in:");
+        setIsAuthenticated(false);
+      }
+    });
+  }, []);
+
+  const handleOpen = (e) => {
     setOpen(true);
-    setUser({ email: "", password: "" });
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleOpen2 = (e) => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <form onSubmit={signUp}>
+        <p>{errorMessage}</p>
         <div>
           <label>Email</label>
           <br />
@@ -81,36 +128,95 @@ function Profile({ userName, avatarUrl }) {
             className="border-1 rounded border-yellow-600 w-full p-1 focus:outline-none focus:border-2"
             type="password"
             value={user.password}
-            onChange={(e) => setUser({ ...user, password: e.target.password })}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
         </div>
         <div
           onClick={signUp}
           className="mt-2 p-2 bg-blue-900 cursor-pointer text-center rounded text-white font-bold text-xl hover:bg-green-600 transition ease-out bg-green-600 duration-500"
         >
-          <p>Sign Up</p>
+          Sign up
         </div>
       </form>
     </div>
   );
 
+  const body2 = (
+    <div style={modalStyle} className={classes.paper}>
+      <form onSubmit={login}>
+        <p>{errorMessage}</p>
+        <div>
+          <label>Email</label>
+          <br />
+          <input
+            placeholder="Email"
+            className="border-1 rounded border-yellow-600 w-full p-1 focus:outline-none"
+            type="email"
+            value={user.email}
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+          />
+        </div>
+        <div>
+          <label>Password</label>
+          <br />
+          <input
+            placeholder="Password"
+            className="border-1 rounded border-yellow-600 w-full p-1 focus:outline-none focus:border-2"
+            type="password"
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
+          />
+        </div>
+        <div
+          onClick={login}
+          className="mt-2 p-2 bg-blue-900 cursor-pointer text-center rounded text-white font-bold text-xl hover:bg-green-600 transition ease-out bg-green-600 duration-500"
+        >
+          Login
+        </div>
+      </form>
+    </div>
+  );
+
+  //return ----------------------------*************************
+
   return (
-    <div className="hidden md:block md:bg-red-600 w-1/2">
+    <div className="hidden md:block md:bg-gray-100 w-1/2">
       <Modal open={open} onClose={handleClose}>
         {body}
       </Modal>
-      <div className="flex justify-end p-5 bg-blue-200">
-        <p className="mx-2 p-2 rounded-xl border-2 cursor-pointer bg-gray-400 hover:bg-red-700 text-black font-bold hover:text-white transition ease-out duration-500 ">
-          Login
-        </p>
-        <p
-          className="mx-2 p-2 rounded-xl border-2 cursor-pointer bg-gray-400 hover:bg-red-700 text-black font-bold hover:text-white transition ease-out duration-500 "
-          onClick={handleOpen}
-        >
-          Signup
-        </p>
+      <Modal open={open2} onClose={handleClose2}>
+        {body2}
+      </Modal>
+      <div className="flex justify-end p-5">
+        {!isAuthenticated ? (
+          <p
+            name="login"
+            className="mx-2 p-2 rounded-xl border-2 cursor-pointer bg-gray-400 hover:bg-red-700 text-black font-bold hover:text-white transition ease-out duration-500 "
+            onClick={handleOpen2}
+          >
+            SignIn
+          </p>
+        ) : (
+          <p
+            className="mx-2 p-2 rounded-xl border-2 cursor-pointer bg-red-400 hover:bg-red-700 text-black font-bold hover:text-white transition ease-out duration-500 "
+            onClick={logout}
+          >
+            Logout
+          </p>
+        )}
+        {isAuthenticated ? (
+          <div></div>
+        ) : (
+          <p
+            name="signup"
+            className="mx-2 p-2 rounded-xl border-2 cursor-pointer bg-gray-400 hover:bg-red-700 text-black font-bold hover:text-white transition ease-out duration-500 "
+            onClick={handleOpen}
+          >
+            Signup
+          </p>
+        )}
       </div>
-      <div className="mx-20 my-10 p-2 bg-blue-200 text-center">
+      <div className="mx-20 my-10 p-2 text-center">
         <div>
           {/* profile info */}
           <div className="flex justify-center">
@@ -142,7 +248,7 @@ function Profile({ userName, avatarUrl }) {
         {/* form */}
         <div className="mt-2">
           <textarea
-            className="focus:outline-none rounded w-full px-2"
+            className="focus:outline-none rounded w-full px-2 border-2"
             placeholder="Caption"
           />
         </div>
