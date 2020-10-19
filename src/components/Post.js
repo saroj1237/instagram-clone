@@ -1,12 +1,11 @@
 import React from "react";
 import { Avatar } from "@material-ui/core";
-// import "./Post.css";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 function Post({ userName, avatarUrl, imageUrl, postStatus }) {
   return (
-    <div className="flex md:justify-end">
-      <div className="bg-gray-200 my-2 mx-2 rounded border border-gray-400 md:w-4/5 ">
+    <div className="flex justify-center">
+      <div className="bg-gray-200 my-2 mx-2 rounded border border-gray-400 md:w-2/5 ">
         <div className=" p-2 flex justify-between items-center">
           <div className="flex items-center">
             <Avatar className="border border-gray-600" alt="" src={avatarUrl} />
@@ -41,18 +40,3 @@ function Post({ userName, avatarUrl, imageUrl, postStatus }) {
 }
 
 export default Post;
-{
-  /* <div className="post-header">
-          <Avatar alt="" src={avatarUrl} />
-          <p>{userName}</p>
-        </div>
-        <img className="post-image" src={imageUrl} />
-        <div className="post-status">
-          <p>
-            <span style={{ color: "black", fontWeight: "bold" }}>
-              {userName}
-            </span>
-            {postStatus}
-          </p>
-        </div> */
-}

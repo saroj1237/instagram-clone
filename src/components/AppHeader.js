@@ -4,7 +4,13 @@ import TelegramIcon from "@material-ui/icons/Telegram";
 import ExploreIcon from "@material-ui/icons/Explore";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import SearchIcon from "@material-ui/icons/Search";
-import PersonIcon from '@material-ui/icons/Person';
+import PersonIcon from "@material-ui/icons/Person";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Posts from "../pages/Posts";
+import Profile from "../pages/Profile";
+import LogIn from "../pages/LogIn";
+import SignUp from "../pages/SignUp";
+import App from "../App";
 
 function AppHeader() {
   return (
@@ -19,22 +25,24 @@ function AppHeader() {
           placeholder="Search"
         />
       </div>
-      <div className="flex">
-        <a>
-          <HomeIcon className="ml-4 cursor-pointer" />
-        </a>
-        <a>
-          <TelegramIcon className="ml-4 cursor-pointer" />
-        </a>
-        <a>
-          <ExploreIcon className="ml-4 cursor-pointer" />
-        </a>
-        <a>
-          <FavoriteBorderIcon className="ml-4 cursor-pointer" />
-        </a>
-        <a href="#">
-          <PersonIcon className="ml-4 cursor-pointer"/>
-        </a>
+      <div className="hidden md:flex">
+        <Router>
+          <Link to="/">
+            <HomeIcon className="ml-4 cursor-pointer" />
+          </Link>
+          <Link to="/login">
+            <TelegramIcon className="ml-4 cursor-pointer" />
+          </Link>
+          <Link to="/signup">
+            <ExploreIcon className="ml-4 cursor-pointer" />
+          </Link>
+          <Link to="/addpost">
+            <FavoriteBorderIcon className="ml-4 cursor-pointer" />
+          </Link>
+          <Link to="/profile">
+            <PersonIcon className="ml-4 cursor-pointer" />
+          </Link>
+        </Router>
       </div>
     </div>
   );
