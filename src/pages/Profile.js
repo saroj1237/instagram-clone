@@ -10,7 +10,6 @@ function Profile() {
   const [user, setUser] = useState({ username: "", email: "", password: "" });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
- 
 
   const logout = () => {
     auth
@@ -48,82 +47,17 @@ function Profile() {
   //return ----------------------------*************************
 
   return (
-    <div>
-      <SignUpModal
-        user={user}
-        setUser={setUser}
-        errorMessage={errorMessage}
-        setErrorMessage={setErrorMessage}
+    <div class="md:flex bg-white justify-center rounded-lg p-6">
+      <img
+        class="h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6"
+        src="https://scontent.fbwa1-1.fna.fbcdn.net/v/t1.0-9/91953185_2580005198922731_1513311652068458496_n.jpg?_nc_cat=100&ccb=2&_nc_sid=09cbfe&_nc_ohc=qHOs0qpJKAgAX9ro0Wz&_nc_oc=AQmrDSdXSIYZiTHPl3_E7nfs5MxvYq1eiCTxJ2F0a0VTT0QIeNJcgo4ITLaF7Iv1pYk&_nc_ht=scontent.fbwa1-1.fna&oh=d38f1b8930f3ed3170cade051f79d87b&oe=5FC79FCD"
       />
-      <SignInModal
-        user={user}
-        setUser={setUser}
-        errorMessage={errorMessage}
-        setErrorMessage={setErrorMessage}
-      />
-
-      <div className="bg-green-600">
-        {!isAuthenticated ? (
-          <p
-            name="login"
-            className="mx-2 p-2 rounded-xl border-2 cursor-pointer bg-gray-400 hover:bg-red-700 text-black font-bold hover:text-white transition ease-out duration-500 "
-            onClick={handleOpen}
-          >
-            SignIn
-          </p>
-        ) : (
-          <p
-            className="mx-2 p-2 rounded-xl border-2 cursor-pointer bg-red-400 hover:bg-red-700 text-black font-bold hover:text-white transition ease-out duration-500 "
-            onClick={logout}
-          >
-            Logout
-          </p>
-        )}
-        {isAuthenticated ? (
-          <div></div>
-        ) : (
-          <p
-            name="signup"
-            className="mx-2 p-2 rounded-xl border-2 cursor-pointer bg-gray-400 hover:bg-red-700 text-black font-bold hover:text-white transition ease-out duration-500 "
-            onClick={handleOpen}
-          >
-            Signup
-          </p>
-        )}
+      <div class="text-center md:text-left">
+        <h2 class="text-lg">Erin Lindford</h2>
+        <div class="text-purple-500">Product Engineer</div>
+        <div class="text-gray-600">erinlindford@example.com</div>
+        <div class="text-gray-600">(555) 765-4321</div>
       </div>
-      <div className="bg-yellow-200 flex justify-center">
-        <div className="w-4/5">
-          {/* profile info */}
-          <div className="bg">
-            <Avatar />
-            <div>
-              {isAuthenticated ? (
-                <h4>{auth.currentUser.displayName}</h4>
-              ) : (
-                <div></div>
-              )}
-
-              <div className="flex justify-evenly">
-                <div className="flex text-gray-700">
-                  <p className="font-bold">12</p>
-                  <p>Posts</p>
-                </div>
-                <div className="flex text-gray-700">
-                  <p className="font-bold">12</p>
-                  <p>Posts</p>
-                </div>
-                <div className="flex text-gray-700">
-                  <p className="font-bold">12</p>
-                  <p>Posts</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <AddPost
-        isAuthenticated={isAuthenticated}
-      />
     </div>
   );
 }

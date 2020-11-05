@@ -10,25 +10,23 @@ import AddPost from "./components/AddPost";
 function App() {
   return (
     <div className="App">
-      <AppHeader />
       <Router>
-        <Switch>
-          <Route exact path="/">
-            <Posts />
-          </Route>
-          <Route path="/profile">
-            <Profile />
-          </Route>
-          <Route path="/login">
-            <LogIn />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="/addpost">
-            <AddPost />
-          </Route>
-        </Switch>
+      <AppHeader />
+  
+         <Switch>
+            <Route path="/login">
+              <LogIn />
+            </Route>
+            <Route path="/signup">
+              <SignUp />
+            </Route>
+            <Route exact path="/">
+              <Posts />
+            </Route>
+            <Route path="/profile">
+              <Profile />
+            </Route>
+          </Switch>
       </Router>
 
     </div>

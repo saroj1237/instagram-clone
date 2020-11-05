@@ -16,7 +16,9 @@ function AppHeader() {
   return (
     <div className="flex justify-between p-4 border-b w-full">
       <div>
-        <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" />
+        <Link to="/">
+          <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" />
+        </Link>
       </div>
       <div className="flex items-center">
         <SearchIcon />
@@ -26,23 +28,21 @@ function AppHeader() {
         />
       </div>
       <div className="hidden md:flex">
-        <Router>
-          <Link to="/">
-            <HomeIcon className="ml-4 cursor-pointer" />
-          </Link>
-          <Link to="/login">
-            <TelegramIcon className="ml-4 cursor-pointer" />
-          </Link>
-          <Link to="/signup">
-            <ExploreIcon className="ml-4 cursor-pointer" />
-          </Link>
-          <Link to="/addpost">
-            <FavoriteBorderIcon className="ml-4 cursor-pointer" />
-          </Link>
-          <Link to="/profile">
-            <PersonIcon className="ml-4 cursor-pointer" />
-          </Link>
-        </Router>
+        <Link to="/">
+          <HomeIcon className="ml-4 cursor-pointer" />
+        </Link>
+        <Link to="/login">
+          <TelegramIcon className="ml-4 cursor-pointer" />
+        </Link>
+        <Link to="/signup">
+          <ExploreIcon className="ml-4 cursor-pointer" />
+        </Link>
+        <Link to="/addpost">
+          <FavoriteBorderIcon className="ml-4 cursor-pointer" />
+        </Link>
+        <Link to="/profile">
+          <PersonIcon className="ml-4 cursor-pointer" />
+        </Link>
       </div>
     </div>
   );
