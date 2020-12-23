@@ -4,10 +4,35 @@ import { Avatar } from "@material-ui/core";
 import AddPost from "../components/AddPost";
 import SignInModal from "../components/SignUpModal";
 import SignUpModal from "../components/SignInModal";
+import Post from "../components/Post";
+import "../styles/profile.css";
+import ProfileHeader from "../components/ProfileHeader";
 
 function Profile() {
+  const currentUser = {
+    id: 1,
+    username: "saroj1237",
+    bio: `Electronics and communication Engineering
+saroj@gmail.com`,
+    profilImage:
+      "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+    isFollowing: false,
+    posts:[
+      {
+        id:2,
+        imageUrl:"https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+        postStatus:"This is fucking hell"
+      },
+      {
+        id:3,
+        imageUrl:"https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png",
+        postStatus:"This is fucking hell"
+      }
+    ]
+  };
+
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState({ username: "", email: "", password: "" });
+  const [user, setUser] = useState({ username: "", email: "" });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -43,22 +68,27 @@ function Profile() {
   const handleClose = () => {
     setOpen(false);
   };
-
   //return ----------------------------*************************
-
   return (
-    <div class="md:flex bg-white justify-center rounded-lg p-6">
-      <img
-        class="h-16 w-16 md:h-24 md:w-24 rounded-full mx-auto md:mx-0 md:mr-6"
-        src="https://scontent.fbwa1-1.fna.fbcdn.net/v/t1.0-9/91953185_2580005198922731_1513311652068458496_n.jpg?_nc_cat=100&ccb=2&_nc_sid=09cbfe&_nc_ohc=qHOs0qpJKAgAX9ro0Wz&_nc_oc=AQmrDSdXSIYZiTHPl3_E7nfs5MxvYq1eiCTxJ2F0a0VTT0QIeNJcgo4ITLaF7Iv1pYk&_nc_ht=scontent.fbwa1-1.fna&oh=d38f1b8930f3ed3170cade051f79d87b&oe=5FC79FCD"
-      />
-      <div class="text-center md:text-left">
-        <h2 class="text-lg">Erin Lindford</h2>
-        <div class="text-purple-500">Product Engineer</div>
-        <div class="text-gray-600">erinlindford@example.com</div>
-        <div class="text-gray-600">(555) 765-4321</div>
+    <>
+      <div className="profile-page">
+      <ProfileHeader currentUser={currentUser}/>
       </div>
-    </div>
+      <hr/>
+      <div class="posts">
+      {currentUser.posts.map((post) => {
+        return (
+          <Post
+            key={post.id}
+            userName={currentUser.userName}
+            avatarUrl={currentUser.avatarUrl}
+            imageUrl={post.imageUrl}
+            postStatus={post.postStatus}
+          />
+        );
+      })}
+      </div>
+    </>
   );
 }
 

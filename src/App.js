@@ -26,6 +26,9 @@ function App() {
             <Route path="/profile">
               <Profile />
             </Route>
+            <Route path="/addpost">
+              <AddPost />
+            </Route>
           </Switch>
       </Router>
 

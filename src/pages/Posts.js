@@ -7,8 +7,7 @@ function Posts() {
   useEffect(() => {
     const user = auth.currentUser;
     db.collection("posts")
-      .doc("gZ8QlELjjThIr9L25OL1f2rZZ6j2")
-      .collection("userPosts")
+      .doc("1r2EBiVtqtEjvEEnUxe2")
       .onSnapshot((snapshot) => {
         setPosts(
           snapshot.docs.map((doc) => {
@@ -16,7 +15,7 @@ function Posts() {
           })
         );
       });
-  }, []);
+  }, [posts]);
   return (
     <div>
       {posts.map((post) => {
